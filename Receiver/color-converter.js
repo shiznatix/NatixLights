@@ -1,18 +1,6 @@
-const scene = `
-b b b b b 0 w 0 b b b b b b b b b b b b
-b b b b b 0 w 0 b b b b b b b b b b b b
-0 0 0 0 0 0 w 0 0 0 0 0 0 0 0 0 0 0 0 0
-w w w w w w w w w w w w w w w w w w w w
-0 0 0 0 0 0 w 0 0 0 0 0 0 0 0 0 0 0 0 0
-b b b b b 0 w 0 b b b b b b b b b b b b
-b b b b b 0 w 0 b b b b b b b b b b b b
-`;
-const colorMap = {
-	b: 'COLOR_BLUE',
-	r: 'COLOR_RED',
-	w: 'COLOR_WHITE',
-	'0': 'COLOR_OFF',
-};
+const animations = require('./animations.js');
+
+const scene = animations.happy;
 let output = [];
 let lineCounter = 0;
 
@@ -27,17 +15,18 @@ scene.split('\n').forEach((line) => {
 		line = line.split('').reverse().join('');
 	}
 
-	Object.keys(colorMap).forEach(function(key) {
-		const replace = colorMap[key];
-	
-		//console.log(`${replace} ${key}`);
-		line = line.split(key).join(`${replace},`);
-	});
+	line = line.split(' ').join(', ');
+	line += ',';
 
 	output.push(line);
 
 	lineCounter++;
 });
+
+const lastLineIndex = (output.length - 1);
+const lastLine = output[lastLineIndex];
+
+output[lastLineIndex] = lastLine.substring(0, lastLine.length - 1);
 
 output.forEach((line) => {
 	console.log(line);

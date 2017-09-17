@@ -1,0 +1,86 @@
+solid LEDs
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 0.0 140.0 1.5
+    vertex 100.00000000000001 140.0 0.0
+    vertex 0.0 140.0 0.0
+  endloop
+endfacet
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 100.00000000000001 140.0 0.0
+    vertex 0.0 140.0 1.5
+    vertex 100.00000000000001 140.0 1.5
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 140.0 1.5
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 0.0 -13.999999999999996 1.5
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 0.0 140.0 1.5
+    vertex 0.0 140.0 0.0
+  endloop
+endfacet
+facet normal 1.0 -0.0 -0.0
+  outer loop
+    vertex 100.00000000000001 140.0 0.0
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 100.00000000000001 -13.999999999999996 0.0
+  endloop
+endfacet
+facet normal 1.0 -0.0 -0.0
+  outer loop
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 100.00000000000001 140.0 0.0
+    vertex 100.00000000000001 140.0 1.5
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 0.0 140.0 1.5
+    vertex 0.0 -13.999999999999996 1.5
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 0.0 140.0 1.5
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 100.00000000000001 140.0 1.5
+  endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 100.00000000000001 140.0 0.0
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 0.0 140.0 0.0
+  endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 100.00000000000001 140.0 0.0
+    vertex 100.00000000000001 -13.999999999999996 0.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 100.00000000000001 -13.999999999999996 0.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 0.0 -13.999999999999996 0.0
+    vertex 100.00000000000001 -13.999999999999996 1.5
+    vertex 0.0 -13.999999999999996 1.5
+  endloop
+endfacet
+endsolid LEDs
