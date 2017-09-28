@@ -27,8 +27,8 @@ bool Radio::setup() {
 	mRf69.setTxPower(POWER, true);
 
 	// TODO: Find the best numbers here for speed & reliability
-	// mRf69Manager.setRetries(RETRY_COUNT);
-	// mRf69Manager.setTimeout(SEND_TIMEOUT);
+	mRf69Manager.setRetries(RETRY_COUNT);
+	mRf69Manager.setTimeout(SEND_TIMEOUT);
 
 	mRf69.setEncryptionKey(ENCRYPTION_KEY);
 

@@ -3,7 +3,7 @@
 #include "Switches.h"
 #include "StatusLights.h"
 
-const boolean DEBUG = true;
+const boolean DEBUG = false;
 
 // // battery
 const int BATTERY_PIN = 9;
@@ -24,7 +24,8 @@ void setup() {
 }
 
 void loop() {
-	// unsigned long startTime = millis();
+	uint32_t startTime = millis();
+
 	char switchStatus = switches.getStatus();
 	char received = radio.receive();
 
@@ -41,9 +42,10 @@ void loop() {
 
 	radio.send(switchStatus);
 
-	delay((DEBUG ? 500 : 1));
-	// Debug::print("loop time: ");
-	// Debug::println((millis() - startTime));
+	Debug::print("loop time: ");
+	Debug::println((millis() - startTime));
+
+	delay((DEBUG ? 200 : 1));
 }
 
 bool isLowBattery() {

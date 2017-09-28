@@ -10,6 +10,8 @@ class Debug {
     static void println(String out);
     static void print(int out);
     static void println(int out);
+    static void print(uint32_t out);
+    static void println(uint32_t out);
     static void print(char out);
     static void println(char out);
 

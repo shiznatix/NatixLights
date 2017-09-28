@@ -34,6 +34,18 @@ void Debug::println(int out) {
   }
 }
 
+void Debug::print(uint32_t out) {
+  if (Debug::IS_DEBUG) {
+    Serial.print(out);
+  }
+}
+
+void Debug::println(uint32_t out) {
+  if (Debug::IS_DEBUG) {
+    Serial.println(out);
+  }
+}
+
 void Debug::print(char out) {
   if (Debug::IS_DEBUG) {
     Serial.print(out);

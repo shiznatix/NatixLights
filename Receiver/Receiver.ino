@@ -1,10 +1,9 @@
-// #include "Globals.h"
 #include "Debug.h"
 #include "Radio.h"
 #include "Lights.h"
 #include "Health.h"
 
-const boolean DEBUG = true;
+const boolean DEBUG = false;
 
 Radio radio;
 Lights lights(5, 12);
@@ -19,7 +18,9 @@ void setup() {
 }
 
 void loop() {
-	// get a message, maybe
+	// uint32_t startTime = millis();
+
+	// // get a message, maybe
 	// char received = radio.receive();
 	// bool isValidAnimation = lights.isValidAnimation(received);
 	// bool isLowBattery = health.isLowBattery();
@@ -36,24 +37,12 @@ void loop() {
 	// 	lights.setupIfNewAnimation(lights.ANIM_CAUTION);
 	// }
 
-	// delay(200);
+	// Debug::print("Loop time: ");
+	// Debug::println((millis() - startTime));
 
-	// lights.setupIfNewAnimation(lights.ANIM_LEFT_TURN);
-	// lights.loop();
-	// delay(1000);
-	// lights.setupIfNewAnimation(lights.ANIM_STOP_LEFT_TURN);
-	// lights.loop();
-	// delay(1000);
-	// lights.setupIfNewAnimation(lights.ANIM_RIGHT_TURN);
-	// lights.loop();
-	// delay(1000);
-	// lights.setupIfNewAnimation(lights.ANIM_STOP_RIGHT_TURN);
-	// lights.loop();
-	// delay(1000);
-	// lights.setupIfNewAnimation(lights.ANIM_STOP);
-	// lights.loop();
-	// delay(1000);
-	lights.setupIfNewAnimation(lights.ANIM_HAPPY);
+	// delay((DEBUG ? 200 : 1));
+
+	lights.setupIfNewAnimation(lights.ANIM_CAUTION);
 	lights.loop();
-	delay(1000);
+	// delay(1000);
 }

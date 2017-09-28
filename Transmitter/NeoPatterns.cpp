@@ -101,7 +101,7 @@ void NeoPatterns::blink(uint32_t color1, uint32_t color2, uint8_t interval) {
 
 void NeoPatterns::flash(uint32_t color1, uint32_t color2, uint8_t steps, uint32_t interval, direction dir) {
 	// don't re-init if we are doing it already, force off() call
-	if (FLASH == mCurrentPattern) {
+	if (FLASH == mCurrentPattern && color1 == mColor1 && color2 == mColor2) {
 		return;
 	}
 
@@ -241,7 +241,7 @@ void NeoPatterns::_fadeUpdate() {
 
 void NeoPatterns::_updateBlink() {
 	for (int i = 0; i < numPixels(); i++) {
-		uint32_t color = (mIndex % 2 ? Color(0, 0, 0) : (i % 2 ? mColor1 : mColor2));
+		uint32_t color = (mIndex % 2 ? Color(0, 0, 0) : (i % 2 ? mColor2 : mColor1));
 		setPixelColor(i, color);
 	}
 
@@ -251,7 +251,7 @@ void NeoPatterns::_updateBlink() {
 
 void NeoPatterns::_updateFlash() {
 	for (int i = 0; i < numPixels(); i++) {
-		uint32_t color = ((1 == mIndex || 3 == mIndex) ? (i % 2 ? mColor1 : mColor2) : Color(0, 0, 0));
+		uint32_t color = ((1 == mIndex || 3 == mIndex) ? (i % 2 ? mColor2 : mColor1) : Color(0, 0, 0));
 		setPixelColor(i, color);
 	}
 

@@ -63,12 +63,10 @@ void Lights::loop() {
 				_image(IMAGE_CAUTION[mCurrentAnimFrame]);
 				break;
 			case ANIM_LEFT_TURN:
-				// _blinkImage(IMAGE_LEFT_TURN);
-				_image(IMAGE_LEFT_TURN);
+				_blinkImage(IMAGE_LEFT_TURN);
 				break;
 			case ANIM_RIGHT_TURN:
-				// _blinkImage(IMAGE_RIGHT_TURN);
-				_image(IMAGE_RIGHT_TURN);
+				_blinkImage(IMAGE_RIGHT_TURN);
 				break;
 			case ANIM_STOP:
 				_image(IMAGE_STOP);
@@ -77,12 +75,10 @@ void Lights::loop() {
 				_image(IMAGE_HAPPY);
 				break;
 			case ANIM_STOP_LEFT_TURN:
-				// _blinkImage(IMAGE_STOP_LEFT_TURN);
-				_image(IMAGE_STOP_LEFT_TURN);
+				_blinkImage(IMAGE_STOP_LEFT_TURN);
 				break;
 			case ANIM_STOP_RIGHT_TURN:
-				// _blinkImage(IMAGE_STOP_RIGHT_TURN);
-				_image(IMAGE_STOP_RIGHT_TURN);
+				_blinkImage(IMAGE_STOP_RIGHT_TURN);
 				break;
 		}
 	}

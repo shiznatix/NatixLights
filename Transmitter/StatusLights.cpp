@@ -57,7 +57,7 @@ void StatusLights::loop() {
 	} else if (receiverNoResponse) {
 		mNeoPixels.rainbowCycle(10, FORWARD);
 	} else if (receiverLowBattery) {
-		mNeoPixels.flash(mColors[0], mColors[1], 10, 100, FORWARD);
+		mNeoPixels.flash(mColors[0], mColors[1], 7, 100, FORWARD);
 	} else if (mSelfLowBattery) {
 		mNeoPixels.flash(mColors[0], mColors[1], 5, 1000, FORWARD);
 	} else {
