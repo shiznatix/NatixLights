@@ -1,13 +1,13 @@
 #include "Lights.h"
 
 Lights::Lights(int dataPin, int clockPin) :
-	mLedStrip(PIXEL_COUNT, dataPin, clockPin, DOTSTAR_BRG) {
+	mNeoPatterns(PIXEL_COUNT, dataPin, clockPin, DOTSTAR_BRG) {
 }
 
 void Lights::setup() {
 	// Setup LEDs
-	mLedStrip.begin();
-	mLedStrip.show();
+	mNeoPatterns.begin();
+	mNeoPatterns.show();
 }
 
 bool Lights::isValidAnimation(const char animation) {
@@ -115,31 +115,31 @@ void Lights::_updateCurrentAnimFrame(unsigned long &currentTime) {
 uint32_t Lights::_getColor(const char &colorChar) {
 	switch (colorChar) {
 		case _:
-			return mLedStrip.Color(0, 0, 0);
+			return mNeoPatterns.Color(0, 0, 0);
 		case r:
-			return mLedStrip.Color(0, MAX_COLOR * 2, 0);
+			return mNeoPatterns.Color(0, MAX_COLOR * 2, 0);
 		case o:
-			//return mLedStrip.Color((MAX_COLOR / 3), MAX_COLOR, 0);
-			return mLedStrip.Color((MAX_COLOR / 2), MAX_COLOR, 0);
+			//return mNeoPatterns.Color((MAX_COLOR / 3), MAX_COLOR, 0);
+			return mNeoPatterns.Color((MAX_COLOR / 2), MAX_COLOR, 0);
 		case y:
-			return mLedStrip.Color((MAX_COLOR / 1.5), MAX_COLOR, 0);
+			return mNeoPatterns.Color((MAX_COLOR / 1.5), MAX_COLOR, 0);
 		case g:
-			return mLedStrip.Color(MAX_COLOR, 0, 0);
+			return mNeoPatterns.Color(MAX_COLOR, 0, 0);
 		case b:
-			return mLedStrip.Color(0, 0, MAX_COLOR);
+			return mNeoPatterns.Color(0, 0, MAX_COLOR);
 		case p:
-			return mLedStrip.Color(0, (MAX_COLOR / 2), (MAX_COLOR / 2));
+			return mNeoPatterns.Color(0, (MAX_COLOR / 2), (MAX_COLOR / 2));
 		case w:
-			return mLedStrip.Color(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+			return mNeoPatterns.Color(MAX_COLOR, MAX_COLOR, MAX_COLOR);
 	}
 }
 
 void Lights::_image(const char image[PIXEL_COUNT]) {
 	for (int i = 0; i < PIXEL_COUNT; i++) {
-		mLedStrip.setPixelColor(i, _getColor(image[i]));
+		mNeoPatterns.setPixelColor(i, _getColor(image[i]));
 	}
 
-	mLedStrip.show();
+	mNeoPatterns.show();
 }
 
 void Lights::_blinkImage(const char image[PIXEL_COUNT]) {
@@ -153,8 +153,8 @@ void Lights::_blinkImage(const char image[PIXEL_COUNT]) {
 
 void Lights::_blank() {
 	for (int i = 0; i < PIXEL_COUNT; i++) {
-		mLedStrip.setPixelColor(i, _getColor(_));
+		mNeoPatterns.setPixelColor(i, _getColor(_));
 	}
 
-	mLedStrip.show();
+	mNeoPatterns.show();
 }

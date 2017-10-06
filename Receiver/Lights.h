@@ -1,7 +1,7 @@
 #ifndef Lights_h
 #define Lights_h
 
-#include <Adafruit_DotStar.h>
+#include "NeoPatterns.h"
 #include "Animations.h"
 
 class Lights {
@@ -24,15 +24,15 @@ class Lights {
 		void loop();
 
 	private:
-		const int MAX_COLOR = 10;
-		const unsigned int PIXEL_REFERSH_DELAY = 200;// milliseconds, maximum value must be the lowest blink/frame delay value
+		const int MAX_COLOR = 100;
+		const unsigned int PIXEL_REFERSH_DELAY = 150;// milliseconds, maximum value must be the lowest blink/frame delay value
 		const unsigned int BLINK_DELAY = 500;// milliseconds
-		const unsigned int FRAME_DELAY = 200;// milliseconds
+		const unsigned int FRAME_DELAY = 150;// milliseconds
 
 		char mCurrentAnimation = ANIM_CAUTION;
 		boolean mIsBlinking = false;
 		byte mCurrentAnimFrame = 0;
-		Adafruit_DotStar mLedStrip;
+		NeoPatterns mNeoPatterns;
 
 		// timers
 		unsigned long mRefreshPixelsTimer = 0;

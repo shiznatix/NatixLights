@@ -1,5 +1,5 @@
 {
-    "port": "/dev/cu.usbmodem1421",
+    "port": "/dev/cu.usbmodem14131",
     "board": "adafruit:samd:adafruit_feather_m0_express",
     "sketch": "Receiver.ino",
     "output": "../build"

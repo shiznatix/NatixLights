@@ -23,10 +23,8 @@ bool Radio::setup() {
 		return false;
 	}
 
-	// TODO: find best power setting 14-20
 	mRf69.setTxPower(POWER, true);
 
-	// TODO: Find the best numbers here for speed & reliability
 	mRf69Manager.setRetries(RETRY_COUNT);
 	mRf69Manager.setTimeout(SEND_TIMEOUT);
 

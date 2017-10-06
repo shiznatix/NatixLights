@@ -3,7 +3,7 @@ const animations = require('./animations.js');
 
 let outputLines = [
 	"//animations",
-	"const int ANIM_FRAMES = 15;",
+	`const int ANIM_FRAMES = ${animations.CAUTION.length};`,
 	"const int PIXEL_COUNT = 140;",
 	"",
 	"const char _ = '_';",
@@ -20,6 +20,7 @@ let outputLines = [
 function parseScene(scene) {
 	let output = [];
 	let lineCounter = 0;
+	let onCount = 0;
 	
 	scene.split('\n').forEach((line) => {
 		line = line.trim();
@@ -32,7 +33,15 @@ function parseScene(scene) {
 			line = line.split('').reverse().join('');
 		}
 
-		line = line.split(' ').join(', ');
+		const colors = line.split(' ');
+
+		colors.forEach((color) => {
+			if ('_' !== color) {
+				onCount++;
+			}
+		});
+
+		line = colors.join(',');
 		line += ',';
 
 		output.push(line);
@@ -44,6 +53,7 @@ function parseScene(scene) {
 	const lastLine = output[lastLineIndex];
 	
 	output[lastLineIndex] = lastLine.substring(0, lastLine.length - 1);
+	output.unshift(`// on count: ${onCount}`);
 
 	return output;
 }
