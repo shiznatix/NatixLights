@@ -61,8 +61,11 @@ char Radio::receive() {
 
 bool Radio::send(char status) {
 	char sendBuffer[RH_RF69_MAX_MESSAGE_LEN];
-	SIGNAL_PREFIX.toCharArray(sendBuffer, (SIGNAL_PREFIX.length() + 1));
-	sendBuffer[SIGNAL_PREFIX.length()] = status;
+	unsigned int signalPrefixLength = SIGNAL_PREFIX.length();
+
+	SIGNAL_PREFIX.toCharArray(sendBuffer, (signalPrefixLength + 1));
+	sendBuffer[signalPrefixLength] = status;
+	sendBuffer[signalPrefixLength + 1] = '\0';
 
 	Debug::print("Sending: ");
 	Debug::println(sendBuffer);

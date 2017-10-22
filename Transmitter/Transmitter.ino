@@ -14,7 +14,7 @@ Switches switches(A1, A3, A4, A5, A0);
 StatusLights statusLights(10, 2);
 
 void setup() {
-	Debug::setup(DEBUG);
+	Debug::setup(DEBUG, Debug::INFO);
 
 	radio.setup();
 	statusLights.setup();
@@ -29,23 +29,24 @@ void loop() {
 	char switchStatus = switches.getStatus();
 	char received = radio.receive();
 
-	if (statusLights.isValidReceiverStatus(received)) {
+	if (radio.send(switchStatus)) {
+		radio.resetConnectionTimeout();
+	}
+
+	if (radio.isConnectionTimeout()) {
+		statusLights.setReceiverStatus(StatusLights::RECEIVER_NO_CONNECTION);
+	} else if (statusLights.isValidReceiverStatus(received)) {
 		statusLights.setReceiverStatus(received);
-		radio.resetReceiveTimeoutTimer();
-	} else if (radio.isReceiveTimeout()) {
-		statusLights.setReceiverStatus(StatusLights::RECEIVER_NO_STATUS);
 	}
 	
 	statusLights.setSwitchStatus(switchStatus);
 	statusLights.setSelfLowBattery(isLowBattery());
 	statusLights.loop();
 
-	radio.send(switchStatus);
-
 	Debug::print("loop time: ");
 	Debug::println((millis() - startTime));
 
-	delay((DEBUG ? 200 : 1));
+	delay((DEBUG ? 20 : 1));
 }
 
 bool isLowBattery() {

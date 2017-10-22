@@ -10,7 +10,7 @@ Lights lights(5, 12);
 Health health(A5);
 
 void setup() {
-	Debug::setup(DEBUG);
+	Debug::setup(DEBUG, Debug::INFO);
 
 	lights.setup();
 	radio.setup();

@@ -48,13 +48,13 @@ bool StatusLights::isValidReceiverStatus(char receiverStatus) {
 
 void StatusLights::loop() {
 	bool receiverLowBattery = (RECEIVER_BATTERY_LOW == mReceiverStatus);
-	bool receiverNoResponse = (RECEIVER_NO_STATUS == mReceiverStatus);
+	bool receiverNoConnection = (RECEIVER_NO_CONNECTION == mReceiverStatus);
 
 	if (mSelfLowBattery && receiverLowBattery) {
 		mNeoPixels.blink(mColors[0], mColors[1], 1000);
-	} else if (mSelfLowBattery && receiverNoResponse) {
+	} else if (mSelfLowBattery && receiverNoConnection) {
 		mNeoPixels.fade(COLOR_RED, COLOR_YELLOW, 70, 10, FORWARD);
-	} else if (receiverNoResponse) {
+	} else if (receiverNoConnection) {
 		mNeoPixels.rainbowCycle(10, FORWARD);
 	} else if (receiverLowBattery) {
 		mNeoPixels.flash(mColors[0], mColors[1], 7, 100, FORWARD);

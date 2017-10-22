@@ -33,6 +33,45 @@ bool Radio::setup() {
 	return true;
 }
 
+bool Radio::send(char status) {
+	bool sendSuccess = false;
+
+	if (SEND_DELAY < (millis() - mSendTimer)) {
+		char sendBuffer[RH_RF69_MAX_MESSAGE_LEN];
+		unsigned int signalPrefixLength = SIGNAL_PREFIX.length();
+		
+		SIGNAL_PREFIX.toCharArray(sendBuffer, (signalPrefixLength + 1));
+		sendBuffer[signalPrefixLength] = status;
+		sendBuffer[signalPrefixLength + 1] = '\0';
+
+		// don't build all the strings if we don't need to
+		if (Debug::IS_DEBUG) {
+			Debug::print("Time: ");
+			Debug::print(millis());
+			Debug::print(" Prefix: '");
+			Debug::print(SIGNAL_PREFIX);
+			Debug::print("' Status: '");
+			Debug::print(status);
+			Debug::print("' Sending: '");
+			Debug::print(sendBuffer);
+			Debug::println("'");
+		}
+
+		uint8_t sendBufferLength = sizeof(sendBuffer);
+
+		if (mRf69Manager.sendtoWait((uint8_t *)sendBuffer, sendBufferLength, DEST_ADDRESS)) {
+			sendSuccess = true;
+		}
+
+		Debug::println((sendSuccess ? "Message sent" : "Message sending failed (no ack)"), Debug::INFO);
+
+		// reset our timer regardless of success
+		mSendTimer = millis();
+	}
+
+	return sendSuccess;
+}
+
 char Radio::receive() {
 	uint8_t messageFrom;
 	uint8_t readBufferlength = sizeof(mReadBuffer);
@@ -56,49 +95,24 @@ char Radio::receive() {
 	return '\0';
 }
 
-bool Radio::send(char status) {
-	if (SEND_DELAY < (millis() - mSendTimer)) {
-		bool sendSuccess = false;
-		char sendBuffer[RH_RF69_MAX_MESSAGE_LEN];
-		SIGNAL_PREFIX.toCharArray(sendBuffer, (SIGNAL_PREFIX.length() + 1));
-		sendBuffer[SIGNAL_PREFIX.length()] = status;
-
-		Debug::print("Sending: ");
-		Debug::println(sendBuffer);
-
-		uint8_t sendBufferLength = sizeof(sendBuffer);
-
-		if (mRf69Manager.sendtoWait((uint8_t *)sendBuffer, sendBufferLength, DEST_ADDRESS)) {
-			sendSuccess = true;
-		}
-
-		Debug::println((sendSuccess ? "Message sent" : "Message sending failed (no ack)"));
-
-		// reset our timer regardless of success
-		mSendTimer = millis();
-
-		return sendSuccess;
-	}
-
-	return true;
+void Radio::resetConnectionTimeout() {
+	Debug::println("resetConnectionTimeout", Debug::INFO);
+	mConnectionTimeoutTimer = millis();
+	mConnectionTimedOut = false;
 }
 
-void Radio::resetReceiveTimeoutTimer() {
-	mReceiveTimeoutTimer = millis();
-}
-
-bool Radio::isReceiveTimeout() {
+bool Radio::isConnectionTimeout() {
 	unsigned long currentTime = millis();
 
 	// make sure we haven't timed out yet.
-	unsigned long timeSinceLastSignal = currentTime - mReceiveTimeoutTimer;
+	unsigned long timeSinceLastSignal = currentTime - mConnectionTimeoutTimer;
 	
-	if (RECEIVE_TIMEOUT < timeSinceLastSignal) {
-		Debug::println("Radio timeout");
+	if (CONNECTION_TIMEOUT < timeSinceLastSignal) {
+		Debug::println("Radio timeout", Debug::INFO);
 
-		resetReceiveTimeoutTimer();
-		return true;
+		mConnectionTimeoutTimer = millis();
+		mConnectionTimedOut = true;
 	}
 
-	return false;
+	return mConnectionTimedOut;
 }

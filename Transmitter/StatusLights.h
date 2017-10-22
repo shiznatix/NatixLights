@@ -7,7 +7,7 @@
 
 class StatusLights {
 	public:
-		static char constexpr RECEIVER_NO_STATUS = '0';
+		static char constexpr RECEIVER_NO_CONNECTION = '0';
 		static char constexpr RECEIVER_BATTERY_NORMAL = '1';
 		static char constexpr RECEIVER_BATTERY_LOW = '2';
 
@@ -30,7 +30,7 @@ class StatusLights {
 		uint32_t COLOR_OFF;
 
 		NeoPatterns mNeoPixels;
-		char mReceiverStatus = RECEIVER_NO_STATUS;
+		char mReceiverStatus = RECEIVER_NO_CONNECTION;
 		bool mSelfLowBattery = false;
 		char mSwitchStatus = Switches::STATUS_CAUTION;
 		uint32_t mColors[2];

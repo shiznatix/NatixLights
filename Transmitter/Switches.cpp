@@ -15,16 +15,19 @@ char Switches::getStatus() {
 	int rightStopSignal = analogRead(mRightStopPin);
 	int buttonSignal = analogRead(mButtonPin);
 
-	Debug::print("leftTurnSignal: ");
-	Debug::print(leftTurnSignal);
-	Debug::print(" - rightTurnSignal: ");
-	Debug::print(rightTurnSignal);
-	Debug::print(" - leftStopSignal: ");
-	Debug::print(leftStopSignal);
-	Debug::print(" - rightStopSignal: ");
-	Debug::print(rightStopSignal);
-	Debug::print(" - buttonSignal: ");
-	Debug::println(buttonSignal);
+	// don't build all the strings if we don't need to
+	if (Debug::IS_DEBUG) {
+		Debug::print("leftTurnSignal: ");
+		Debug::print(leftTurnSignal);
+		Debug::print(" - rightTurnSignal: ");
+		Debug::print(rightTurnSignal);
+		Debug::print(" - leftStopSignal: ");
+		Debug::print(leftStopSignal);
+		Debug::print(" - rightStopSignal: ");
+		Debug::print(rightStopSignal);
+		Debug::print(" - buttonSignal: ");
+		Debug::println(buttonSignal);
+	}
 
 	if (leftStopSignal < SIGNAL_THRESHOLD || rightStopSignal < SIGNAL_THRESHOLD) {
 		if (leftTurnSignal > SIGNAL_THRESHOLD) {

@@ -10,10 +10,10 @@ class Radio {
 	public:
 		Radio();
 		bool setup();
-		char receive();
 		bool send(char status);
-		void resetReceiveTimeoutTimer();
-		bool isReceiveTimeout();
+		char receive();
+		void resetConnectionTimeout();
+		bool isConnectionTimeout();
 
 	private:
 		const int MY_ADDRESS = 2;
@@ -39,9 +39,10 @@ class Radio {
 
 		// timers
 		const unsigned int SEND_DELAY = 500;// milliseconds
-		const unsigned int RECEIVE_TIMEOUT = 3000;// milliseconds
+		const unsigned int CONNECTION_TIMEOUT = 1500;// milliseconds
 		unsigned long mSendTimer = 0;
-		unsigned long mReceiveTimeoutTimer = 0;
+		unsigned long mConnectionTimeoutTimer = 0;
+		bool mConnectionTimedOut = false;
 };
 
 #endif
