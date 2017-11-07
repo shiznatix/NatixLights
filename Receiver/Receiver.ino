@@ -4,10 +4,11 @@
 #include "Health.h"
 
 const boolean DEBUG = false;
+const boolean BATTERY_LEVEL_MODE = false;
 
 Radio radio;
 Lights lights(5, 12);
-Health health(A5);
+Health health(A5, A2);
 
 void setup() {
 	Debug::setup(DEBUG, Debug::INFO);
@@ -20,6 +21,19 @@ void setup() {
 void loop() {
 	uint32_t startTime = millis();
 
+	if (BATTERY_LEVEL_MODE) {
+		batteryLevelMode();
+	} else {
+		receiverMode();
+	}
+
+	Debug::print("Loop time: ");
+	Debug::println((millis() - startTime));
+
+	delay((DEBUG ? 200 : 1));
+}
+
+void receiverMode() {
 	// get a message, maybe
 	char received = radio.receive();
 	bool isValidAnimation = lights.isValidAnimation(received);
@@ -37,13 +51,33 @@ void loop() {
 		lights.setupIfNewAnimation(lights.ANIM_CAUTION);
 	}
 
-	Debug::print("Loop time: ");
-	Debug::println((millis() - startTime));
-
-	delay((DEBUG ? 200 : 1));
-
 	// lights.setupIfNewAnimation(lights.ANIM_CAUTION);
 	// lights.setupIfNewAnimation(lights.ANIM_STOP);
 	// lights.setupIfNewAnimation(lights.ANIM_HAPPY);
 	// lights.loop();
+}
+
+void batteryLevelMode() {
+	// If we are measuring the voltage from pin 9 on the Feather
+	// float voltage = health.getBatteryVoltage();
+
+	// int wholeDigit = (int)voltage;
+	// int decimal = voltage * 1000;
+	// char decimalString[16];
+	// itoa(decimal, decimalString, 10);
+	// int decimalHundreds = decimalString[1] - '0';
+	// int decimalTens = decimalString[2] - '0';
+
+	// lights.setupBatteryIndicator(wholeDigit, decimalHundreds, decimalTens);
+	// lights.loop();
+
+	lights.setupIfNewAnimation(Lights::ANIM_CUSTOM);
+
+	if (health.isLowBattery()) {
+		lights.setPixelColor(0, lights.getColor(r));
+	} else {
+		lights.setPixelColor(0, lights.getColor(g));
+	}
+
+	lights.loop();
 }

@@ -63,6 +63,27 @@ void Debug::println(int out, int level) {
 	}
 }
 
+// Float
+void Debug::print(float out) {
+	Debug::print(out, Debug::DEBUG);
+}
+
+void Debug::print(float out, int level) {
+	if (Debug::IS_DEBUG && Debug::MIN_LEVEL <= level) {
+		Serial.print(out);
+	}
+}
+
+void Debug::println(float out) {
+	Debug::println(out, Debug::DEBUG);
+}
+
+void Debug::println(float out, int level) {
+	if (Debug::IS_DEBUG && Debug::MIN_LEVEL <= level) {
+		Serial.println(out);
+	}
+}
+
 // Unsigned Int 32
 void Debug::print(uint32_t out) {
 	Debug::print(out, Debug::DEBUG);

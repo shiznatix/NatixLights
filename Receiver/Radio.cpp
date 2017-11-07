@@ -40,17 +40,17 @@ char Radio::receive() {
 	if (mRf69Manager.recvfromAck(mReadBuffer, &readBufferlength, &messageFrom)) {
 		mReadBuffer[readBufferlength] = 0; // zero out remaining string
 
-		Debug::print("Received: '");
-		Debug::print((char*)mReadBuffer);
-		Debug::println("'");
+		// Debug::print("Received: '");
+		// Debug::print((char*)mReadBuffer);
+		// Debug::println("'");
 
 		String received = String((char*)mReadBuffer);
 
 		if (received.startsWith(SIGNAL_PREFIX)) {
 			char animType = received.charAt(SIGNAL_PREFIX.length());
 
-			Debug::print("Animation type: ");
-			Debug::println(animType);
+			// Debug::print("Animation type: ");
+			// Debug::println(animType);
 
 			return animType;
 		}
@@ -67,18 +67,18 @@ bool Radio::send(char status) {
 	sendBuffer[signalPrefixLength] = status;
 	sendBuffer[signalPrefixLength + 1] = '\0';
 
-	Debug::print("Sending: ");
-	Debug::println(sendBuffer);
+	// Debug::print("Sending: ");
+	// Debug::println(sendBuffer);
 
 	uint8_t sendBufferLength = sizeof(sendBuffer);
 
 	if (mRf69Manager.sendtoWait((uint8_t *)sendBuffer, sendBufferLength, DEST_ADDRESS)) {
-		Debug::println("Message sent");
+		// Debug::println("Message sent");
 
 		return true;
 	}
 
-	Debug::println("Message sending failed (no ack)");
+	// Debug::println("Message sending failed (no ack)");
 
 	return false;
 }
@@ -104,7 +104,7 @@ bool Radio::isReceiveTimeout() {
 	unsigned long timeSinceLastSignal = currentTime - mReceiveTimer;
 	
 	if (RECEIVE_TIMEOUT < timeSinceLastSignal) {
-		Debug::println("Radio timeout");
+		// Debug::println("Radio timeout");
 
 		resetReceiveTimer();
 		return true;

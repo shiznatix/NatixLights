@@ -12,6 +12,7 @@ void Lights::setup() {
 
 bool Lights::isValidAnimation(const char animation) {
 	switch (animation) {
+		case ANIM_CUSTOM:
 		case ANIM_CAUTION:
 		case ANIM_LEFT_TURN:
 		case ANIM_RIGHT_TURN:
@@ -31,6 +32,60 @@ void Lights::setupIfNewAnimation(const char animation) {
 	if (isValid && animation != mCurrentAnimation) {
 		mCurrentAnimation = animation;
 		reset();
+	}
+}
+
+void Lights::setupBatteryIndicator(int wholeDigit, int decimalHundreds, int decimalTens) {
+	setupIfNewAnimation(Lights::ANIM_CUSTOM);
+
+	int pixel = 0;
+	
+	for (; pixel < wholeDigit; pixel++) {
+		setPixelColor(pixel, getColor(r));
+	}
+	for (int i = 0; i < decimalHundreds; i++) {
+		setPixelColor(pixel, getColor(g));
+		pixel++;
+	}
+	for (int i = 0; i < decimalTens; i++) {
+		setPixelColor(pixel, getColor(b));
+		pixel++;
+	}
+	for (; pixel < PIXEL_COUNT; pixel++) {
+		setPixelColor(pixel, getColor(_));
+	}
+}
+
+void Lights::setPixelColor(int pixel, uint32_t color) {
+	mNeoPatterns.setPixelColor(pixel, color);
+}
+
+void Lights::blank() {
+	for (int i = 0; i < PIXEL_COUNT; i++) {
+		mNeoPatterns.setPixelColor(i, getColor(_));
+	}
+
+	mNeoPatterns.show();
+}
+
+uint32_t Lights::getColor(const char &colorChar) {
+	switch (colorChar) {
+		case _:
+			return mNeoPatterns.Color(0, 0, 0);
+		case r:
+			return mNeoPatterns.Color(0, MAX_COLOR * 2, 0);
+		case o:
+			return mNeoPatterns.Color((MAX_COLOR / 2), MAX_COLOR, 0);
+		case y:
+			return mNeoPatterns.Color((MAX_COLOR / 1.5), MAX_COLOR, 0);
+		case g:
+			return mNeoPatterns.Color(MAX_COLOR, 0, 0);
+		case b:
+			return mNeoPatterns.Color(0, 0, MAX_COLOR);
+		case p:
+			return mNeoPatterns.Color(0, (MAX_COLOR / 2), (MAX_COLOR / 2));
+		case w:
+			return mNeoPatterns.Color(MAX_COLOR, MAX_COLOR, MAX_COLOR);
 	}
 }
 
@@ -59,6 +114,9 @@ void Lights::loop() {
 		mRefreshPixelsTimer = currentTime;
 		
 		switch (mCurrentAnimation) {
+			case ANIM_CUSTOM:
+				mNeoPatterns.show();
+				break;
 			case ANIM_CAUTION:
 				_image(IMAGE_CAUTION[mCurrentAnimFrame]);
 				break;
@@ -112,31 +170,9 @@ void Lights::_updateCurrentAnimFrame(unsigned long &currentTime) {
 	}
 }
 
-uint32_t Lights::_getColor(const char &colorChar) {
-	switch (colorChar) {
-		case _:
-			return mNeoPatterns.Color(0, 0, 0);
-		case r:
-			return mNeoPatterns.Color(0, MAX_COLOR * 2, 0);
-		case o:
-			//return mNeoPatterns.Color((MAX_COLOR / 3), MAX_COLOR, 0);
-			return mNeoPatterns.Color((MAX_COLOR / 2), MAX_COLOR, 0);
-		case y:
-			return mNeoPatterns.Color((MAX_COLOR / 1.5), MAX_COLOR, 0);
-		case g:
-			return mNeoPatterns.Color(MAX_COLOR, 0, 0);
-		case b:
-			return mNeoPatterns.Color(0, 0, MAX_COLOR);
-		case p:
-			return mNeoPatterns.Color(0, (MAX_COLOR / 2), (MAX_COLOR / 2));
-		case w:
-			return mNeoPatterns.Color(MAX_COLOR, MAX_COLOR, MAX_COLOR);
-	}
-}
-
 void Lights::_image(const char image[PIXEL_COUNT]) {
 	for (int i = 0; i < PIXEL_COUNT; i++) {
-		mNeoPatterns.setPixelColor(i, _getColor(image[i]));
+		mNeoPatterns.setPixelColor(i, getColor(image[i]));
 	}
 
 	mNeoPatterns.show();
@@ -147,14 +183,6 @@ void Lights::_blinkImage(const char image[PIXEL_COUNT]) {
 		_image(image);
 	}
 	else {
-		_blank();
+		blank();
 	}
-}
-
-void Lights::_blank() {
-	for (int i = 0; i < PIXEL_COUNT; i++) {
-		mNeoPatterns.setPixelColor(i, _getColor(_));
-	}
-
-	mNeoPatterns.show();
 }

@@ -7,7 +7,8 @@
 class Lights {
 	public:
 		// setup our animation types
-		static constexpr char ANIM_NONE = '0';
+		static constexpr char ANIM_NONE = '-1';
+		static constexpr char ANIM_CUSTOM = '0';
 		static constexpr char ANIM_CAUTION = '1';
 		static constexpr char ANIM_LEFT_TURN = '2';
 		static constexpr char ANIM_RIGHT_TURN = '3';
@@ -20,11 +21,15 @@ class Lights {
 		void setup();
 		bool isValidAnimation(const char animation);
 		void setupIfNewAnimation(const char animation);
+		void setupBatteryIndicator(int wholeDigit, int decimalHundreds, int decimalTens);
+		void setPixelColor(int pixel, uint32_t color);
+		void blank();
+		uint32_t getColor(const char &colorChar);
 		void reset();
 		void loop();
 
 	private:
-		const int MAX_COLOR = 100;
+		const int MAX_COLOR = 70;
 		const unsigned int PIXEL_REFERSH_DELAY = 150;// milliseconds, maximum value must be the lowest blink/frame delay value
 		const unsigned int BLINK_DELAY = 500;// milliseconds
 		const unsigned int FRAME_DELAY = 150;// milliseconds
@@ -41,10 +46,8 @@ class Lights {
 
 		void _updateIsBlinking(unsigned long &currentTime);
 		void _updateCurrentAnimFrame(unsigned long &currentTime);
-		uint32_t _getColor(const char &colorChar);
 		void _image(const char image[PIXEL_COUNT]);
 		void _blinkImage(const char image[PIXEL_COUNT]);
-		void _blank();
 };
 
 #endif

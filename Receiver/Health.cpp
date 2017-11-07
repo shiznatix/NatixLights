@@ -1,12 +1,13 @@
 #include "Health.h"
 
-Health::Health(int ledPin) {
+Health::Health(int ledPin, int batteryPin) {
 	mLedPin = ledPin;
+	mBatteryPin = batteryPin;
 }
 
 void Health::setup() {
 	// setup battery
-	pinMode(BATTERY_PIN, INPUT);
+	pinMode(mBatteryPin, INPUT);
 
 	// Setup health indicator
 	pinMode(mLedPin, OUTPUT);
@@ -14,10 +15,9 @@ void Health::setup() {
 }
 
 bool Health::isLowBattery() {
-	// convert to voltage
-	float batteryVoltage = analogRead(BATTERY_PIN) * 2 * 3.3 / 1024;
-	
-	return (batteryVoltage <= BATTERY_LOW_VOLTAGE);
+	int battery = analogRead(mBatteryPin);
+
+	return (battery < 500);
 }
 
 void Health::setIndicator(bool isLowBattery) {

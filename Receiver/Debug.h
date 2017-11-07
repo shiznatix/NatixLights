@@ -23,6 +23,11 @@ class Debug {
 		static void println(int out);
 		static void println(int out, int level);
 
+		static void print(float out);
+		static void print(float out, int level);
+		static void println(float out);
+		static void println(float out, int level);
+
 		static void print(uint32_t out);
 		static void print(uint32_t out, int level);
 		static void println(uint32_t out);
