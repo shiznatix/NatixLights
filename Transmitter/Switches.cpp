@@ -29,7 +29,9 @@ char Switches::getStatus() {
 		Debug::println(buttonSignal);
 	}
 
-	if (leftStopSignal < SIGNAL_THRESHOLD || rightStopSignal < SIGNAL_THRESHOLD) {
+	if (buttonSignal > SIGNAL_THRESHOLD) {
+		return STATUS_BUTTON;
+	} else if (leftStopSignal < SIGNAL_THRESHOLD || rightStopSignal < SIGNAL_THRESHOLD) {
 		if (leftTurnSignal > SIGNAL_THRESHOLD) {
 			return STATUS_STOP_LEFT_TURN;
 		} else if (rightTurnSignal > SIGNAL_THRESHOLD) {
@@ -41,8 +43,6 @@ char Switches::getStatus() {
 		return STATUS_LEFT_TURN;
 	} else if (rightTurnSignal > SIGNAL_THRESHOLD) {
 		return STATUS_RIGHT_TURN;
-	} else if (buttonSignal > SIGNAL_THRESHOLD) {
-		return STATUS_BUTTON;
 	}
 
 	return STATUS_CAUTION;
