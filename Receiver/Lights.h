@@ -19,6 +19,7 @@ class Lights {
 
 		Lights(int dataPin, int clockPin);
 		void setup();
+		void setBrightness(uint8_t brightness);
 		bool isValidAnimation(const char animation);
 		void setupIfNewAnimation(const char animation);
 		void setupBatteryIndicator(int wholeDigit, int decimalHundreds, int decimalTens);
@@ -29,7 +30,7 @@ class Lights {
 		void loop();
 
 	private:
-		const int MAX_COLOR = 70;
+		const int MAX_COLOR = 255;
 		const unsigned int PIXEL_REFERSH_DELAY = 150;// milliseconds, maximum value must be the lowest blink/frame delay value
 		const unsigned int BLINK_DELAY = 500;// milliseconds
 		const unsigned int FRAME_DELAY = 150;// milliseconds

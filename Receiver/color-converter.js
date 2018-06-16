@@ -4,7 +4,7 @@ const animations = require('./animations.js');
 let outputLines = [
 	"//animations",
 	`const int ANIM_FRAMES = ${animations.CAUTION.length};`,
-	"const int PIXEL_COUNT = 140;",
+	"const int PIXEL_COUNT = 243;",
 	"",
 	"const char _ = '_';",
 	"const char r = 'r';",

@@ -10,6 +10,10 @@ void Lights::setup() {
 	mNeoPatterns.show();
 }
 
+void Lights::setBrightness(uint8_t brightness) {
+	mNeoPatterns.setBrightness(brightness);
+}
+
 bool Lights::isValidAnimation(const char animation) {
 	switch (animation) {
 		case ANIM_CUSTOM:
@@ -119,6 +123,8 @@ void Lights::loop() {
 				break;
 			case ANIM_CAUTION:
 				_image(IMAGE_CAUTION[mCurrentAnimFrame]);
+				// _image(IMAGE_CHRISTMAS[mCurrentAnimFrame]);
+				// _image(IMAGE_EESTI_100[mCurrentAnimFrame]);
 				break;
 			case ANIM_LEFT_TURN:
 				_blinkImage(IMAGE_LEFT_TURN);

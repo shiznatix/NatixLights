@@ -1,0 +1,56 @@
+121 white
+126 black
+247 total
+
+242 = max
+
+25x9 = 225
+27*9 = 234
+
+WHITE
+Lenght 18 = 4
+       17 = 1
+	   16 = 2
+
+18 = 0
+17 = 0
+16 = 0
+9 = 0
+1 = 1
+8 = 0
+3 = 1
+x x x x x x x x x x x x x x x x x x b b b b b b b b b // 18 + (7 from 17 = new 9 w/ 1 sacrafice)
+x x x x x x x x x x x x x x x x x x b b b b b b b b b // 18 + (7 from 9 = new 1 w/ 1 sacrafice)
+x x x x x x x x x x x x x x x x x x c c c c c c c c c // 18 + (7 from 16 = new 8 w/ 1 sacrafice)
+x x x x x x x x x x x x x x x x x x c c c c c c c c c // 18 + (7 from 16 = new 8 w/ 1 sacrafice)
+d d d d d d d d e e e e e // 8 + (5 from 8 = new 2 w/ 1 sacrafice)
+
+BLACK
+Length 18 = 7
+
+18 = 3
+10 = 2
+x x x x x x x x x x x x x x x x x x b b b b b b b b b // 18 + (7 from 18 = new 10)
+x x x x x x x x x x x x x x x x x x c c c c c c c c c // 18 + (7 from 18 = new 10)
+
+
+----------------------
+
+Vibrator switch
+momentary push switch
+motors for toy drums
+	and any controllers needed...
+
+
+
+https://www.adafruit.com/product/1599
+https://www.adafruit.com/product/420
+https://www.adafruit.com/product/1597
+https://www.adafruit.com/product/1128
+https://www.adafruit.com/product/2210
+https://www.adafruit.com/product/2124
+https://www.adafruit.com/product/1766 x4
+https://www.adafruit.com/product/818
+https://www.adafruit.com/product/819
+https://www.adafruit.com/product/1891
+

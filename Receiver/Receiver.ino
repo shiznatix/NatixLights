@@ -16,6 +16,9 @@ void setup() {
 	lights.setup();
 	radio.setup();
 	health.setup();
+
+	// lights.setBrightness(100);
+	lights.setBrightness(50);
 }
 
 void loop() {
@@ -34,27 +37,28 @@ void loop() {
 }
 
 void receiverMode() {
-	// get a message, maybe
-	char received = radio.receive();
-	bool isValidAnimation = lights.isValidAnimation(received);
-	bool isLowBattery = health.isLowBattery();
-	char healthMessage = (isLowBattery ? health.BATTERY_LOW : health.BATTERY_NORMAL);
+	// // get a message, maybe
+	// char received = radio.receive();
+	// bool isValidAnimation = lights.isValidAnimation(received);
+	// bool isLowBattery = health.isLowBattery();
+	// char healthMessage = (isLowBattery ? health.BATTERY_LOW : health.BATTERY_NORMAL);
 
-	lights.loop();
-	health.setIndicator(isLowBattery);
-	radio.sendHealthMessage(healthMessage);
+	// lights.loop();
+	// health.setIndicator(isLowBattery);
+	// radio.sendHealthMessage(healthMessage);
 
-	if (isValidAnimation) {
-		lights.setupIfNewAnimation(received);
-		radio.resetReceiveTimer();
-	} else if (radio.isReceiveTimeout()) {
-		lights.setupIfNewAnimation(lights.ANIM_CAUTION);
-	}
+	// if (isValidAnimation) {
+	// 	lights.setupIfNewAnimation(received);
+	// 	radio.resetReceiveTimer();
+	// } else if (radio.isReceiveTimeout()) {
+	// 	lights.setupIfNewAnimation(lights.ANIM_CAUTION);
+	// }
 
 	// lights.setupIfNewAnimation(lights.ANIM_CAUTION);
 	// lights.setupIfNewAnimation(lights.ANIM_STOP);
 	// lights.setupIfNewAnimation(lights.ANIM_HAPPY);
-	// lights.loop();
+	lights.setupIfNewAnimation(lights.ANIM_LEFT_TURN);
+	lights.loop();
 }
 
 void batteryLevelMode() {
