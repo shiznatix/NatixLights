@@ -11,9 +11,11 @@ Switches::Switches(int leftTurnPin, int rightTurnPin, int leftStopPin, int right
 char Switches::getStatus() {
 	int leftTurnSignal = analogRead(mLeftTurnPin);
 	int rightTurnSignal = analogRead(mRightTurnPin);
-	int leftStopSignal = analogRead(mLeftStopPin);
-	int rightStopSignal = analogRead(mRightStopPin);
 	int buttonSignal = analogRead(mButtonPin);
+	// int leftStopSignal = analogRead(mLeftStopPin);
+	// int rightStopSignal = analogRead(mRightStopPin);
+	int leftStopSignal = SIGNAL_THRESHOLD;
+	int rightStopSignal = SIGNAL_THRESHOLD;
 
 	// don't build all the strings if we don't need to
 	if (Debug::IS_DEBUG) {
