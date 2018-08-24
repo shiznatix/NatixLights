@@ -1,75 +1,56 @@
-#include <VirtualWire.h>
-#include "Globals.h"
+#include "Debug.h"
+#include "Radio.h"
+#include "Switches.h"
+#include "StatusLights.h"
 
 const boolean DEBUG = false;
 
+// // battery
+const int BATTERY_PIN = 9;
+const float BATTERY_LOW_VOLTAGE = 3.4;
+
+Radio radio;
+Switches switches(A1, A3, A4, A5, A0);
+StatusLights statusLights(10, 2);
+
 void setup() {
-  if (DEBUG) {
-    Serial.begin(9600);
-  }
-  
-  pinMode(LEFT_TURN_PIN, INPUT);
-  pinMode(RIGHT_TURN_PIN, INPUT);
-  pinMode(HAPPY_PIN, INPUT);
-  pinMode(STOP_PIN, INPUT);
-  
-  vw_set_tx_pin(RADIO_PIN);
-  vw_setup(2000);//bits per sec
+	Debug::setup(DEBUG, Debug::INFO);
+
+	radio.setup();
+	statusLights.setup();
+
+	// setup battery
+	pinMode(BATTERY_PIN, INPUT);
 }
 
 void loop() {
-  int leftTurnSignal = analogRead(LEFT_TURN_PIN);
-  int rightTurnSignal = analogRead(RIGHT_TURN_PIN);
-  int happySignal = analogRead(HAPPY_PIN);
-  int stopSignal = analogRead(STOP_PIN);
-  
-  if (DEBUG) {
-    Serial.print("leftTurnSignal: ");
-    Serial.print(leftTurnSignal);
-    Serial.print(" - rightTurnSignal: ");
-    Serial.print(rightTurnSignal);
-    Serial.print(" - happySignal: ");
-    Serial.print(happySignal);
-    Serial.print(" - stopSignal: ");
-    Serial.println(stopSignal);
-  }
-  
-  if (stopSignal < SIGNAL_THRESHOLD) {
-    if (leftTurnSignal > SIGNAL_THRESHOLD) {
-      sendMessage(ANIM_TYPE_STOP_LEFT_TURN);
-    }
-    else if (rightTurnSignal > SIGNAL_THRESHOLD) {
-      sendMessage(ANIM_TYPE_STOP_RIGHT_TURN);
-    }
-    else {
-      sendMessage(ANIM_TYPE_STOP);
-    }
-  }
-  else if (leftTurnSignal > SIGNAL_THRESHOLD) {
-    sendMessage(ANIM_TYPE_LEFT_TURN);
-  }
-  else if (rightTurnSignal > SIGNAL_THRESHOLD) {
-    sendMessage(ANIM_TYPE_RIGHT_TURN);
-  }
-  else if (happySignal > SIGNAL_THRESHOLD) {
-    sendMessage(ANIM_TYPE_HAPPY);
-  }
-  else {
-    sendMessage(ANIM_TYPE_CAUTION);
-  }
-  
-  delay((DEBUG ? 100 : 10));
+	uint32_t startTime = millis();
+
+	char switchStatus = switches.getStatus();
+	char received = radio.receive();
+
+	if (radio.send(switchStatus)) {
+		radio.resetConnectionTimeout();
+	}
+
+	if (radio.isConnectionTimeout()) {
+		statusLights.setReceiverStatus(StatusLights::RECEIVER_NO_CONNECTION);
+	} else if (statusLights.isValidReceiverStatus(received)) {
+		statusLights.setReceiverStatus(received);
+	}
+	
+	statusLights.setSwitchStatus(switchStatus);
+	statusLights.setSelfLowBattery(isLowBattery());
+	statusLights.loop();
+
+	Debug::print("loop time: ");
+	Debug::println((millis() - startTime));
+
+	delay((DEBUG ? 20 : 1));
 }
 
-void sendMessage(const char *message) {
-  char toSend[(MESSAGE_LENGTH + 1)];
-  sprintf(toSend, "%s%s", MESSAGE_PREFIX, message);
-  
-  if (DEBUG) {
-    Serial.print("Sending: ");
-    Serial.println(toSend);
-  }
-  
-  vw_send((uint8_t *)toSend, strlen(toSend));
-  vw_wait_tx();//wait until the whole message is gone
+bool isLowBattery() {
+	// convert to voltage
+	float myBattery = analogRead(BATTERY_PIN) * 2 * 3.3 / 1024;
+	return (myBattery <= BATTERY_LOW_VOLTAGE);
 }
